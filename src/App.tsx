@@ -105,6 +105,16 @@ function UnitChecker() {
           <legend>
             <h3>The building</h3>
           </legend>
+          <label className="field">
+            Property address
+            <input
+              id="address"
+              placeholder="Street address and unit, San Francisco, CA"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <span className="hint">Used on the drafted notice</span>
+          </label>
           <div className="row">
             <label className="field">
               Year built
@@ -319,7 +329,7 @@ function UnitChecker() {
             <Ruling
               ev={result.ev}
               parties={{ landlordName: landlord, tenantNames: tenants, address, serviceDate, serviceMethod: method }}
-              onParties={{ setLandlord, setTenants, setAddress }}
+              onParties={{ setLandlord, setTenants }}
             />
           )
         )}
@@ -343,7 +353,7 @@ function Ruling({
 }: {
   ev: Evaluation
   parties: Parameters<typeof draftNotice>[1]
-  onParties: { setLandlord: (s: string) => void; setTenants: (s: string) => void; setAddress: (s: string) => void }
+  onParties: { setLandlord: (s: string) => void; setTenants: (s: string) => void }
 }) {
   const [copied, setCopied] = useState(false)
   const noticeText = draftNotice(ev, parties)
@@ -472,10 +482,6 @@ function Ruling({
                 <input id="tenants" value={parties.tenantNames} onChange={(e) => onParties.setTenants(e.target.value)} />
               </label>
             </div>
-            <label className="field">
-              Address
-              <input id="address" value={parties.address} onChange={(e) => onParties.setAddress(e.target.value)} />
-            </label>
             <pre className="notice" id="notice-text">
               {noticeText}
             </pre>
